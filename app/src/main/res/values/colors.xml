@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+
+    <color name="text_primary">#555555</color>
+    <color name="second_text">#888888</color>
+    <color name="activated_item_foreground">#44888888</color>
+    <color name="pressed_item_foreground">#08000000</color>
+    <color name="divide">#888888</color>
+</resources>
