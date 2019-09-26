@@ -18,12 +18,21 @@
         android:padding="@dimen/medium_margin"
         android:src="@mipmap/ic_folder" />
 
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="30dp"
+        android:layout_height="45dp"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+        />
+
     <TextView
         android:id="@+id/text_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/image_icon"
         android:layout_toEndOf="@id/image_icon"
+        android:layout_marginRight="30dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingStart="@dimen/small_margin"
@@ -31,7 +40,7 @@
         tools:text="文件夹" />
 
     <TextView
-        android:id="@+id/text_child_count"
+        android:id="@+id/text_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_name"
@@ -43,15 +52,18 @@
 
     <TextView
         android:id="@+id/text_date"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/text_child_count"
-        android:layout_alignBottom="@id/text_child_count"
-        android:layout_toEndOf="@id/text_child_count"
+        android:layout_alignTop="@id/text_details"
+        android:layout_alignBottom="@id/text_details"
+        android:layout_toLeftOf="@id/checkbox"
+        android:layout_toEndOf="@id/text_details"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="8dp"
         android:alpha="0.6"
-        android:gravity="end"
         android:textSize="@dimen/thread_text_size"
         tools:text="2008/10/11" />
+
 
     <View
         android:layout_width="match_parent"

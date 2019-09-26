@@ -1,6 +1,5 @@
 package cn.com.bamboo.esay_file_manage.util
 
-import android.os.Environment
 import cn.com.bamboo.esay_file_manage.extensions.getDirectChildrenCount
 import cn.com.bamboo.esay_file_manage.model.ItemFile
 import java.io.File
@@ -24,6 +23,7 @@ class FileUtil {
                 }
             }
             items.sort()
+            items.add(ItemFile(""))
             return items
         }
 
@@ -46,7 +46,7 @@ class FileUtil {
                 file.length()
             }
 
-            return ItemFile(curPath, curName, isDirectory, children, size, file.lastModified(), false)
+            return ItemFile(curPath, curName, isDirectory, children, size, file.lastModified())
         }
     }
 }
