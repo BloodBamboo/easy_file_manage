@@ -4,8 +4,7 @@ import cn.com.bamboo.esay_file_manage.extensions.getDirectChildrenCount
 import cn.com.bamboo.esay_file_manage.model.ItemFile
 import java.io.File
 
-class FileUtil {
-    companion object {
+object FileUtil {
         var showHidden = false
 
         /**
@@ -48,5 +47,31 @@ class FileUtil {
 
             return ItemFile(curPath, curName, isDirectory, children, size, file.lastModified())
         }
+
+
+    fun createFileOrFolder(parentPath: String, name: String): Boolean {
+        val file = File("${parentPath}/${name}")
+        return if (name.contains(".")) {
+            file.createNewFile()
+        } else {
+            file.mkdir()
+        }
+        return false
+    }
+
+    fun remove(files: List<String>): Boolean {
+        try {
+            for (path in files) {
+                val file = File(path)
+                if (file.exists() && file.isDirectory) {
+                    file.deleteRecursively()
+                } else if (file.exists() && file.isFile) {
+                    file.delete()
+                }
+            }
+        } catch (e: Exception) {
+            return false
+        }
+        return true
     }
 }

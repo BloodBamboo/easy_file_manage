@@ -34,7 +34,7 @@
             android:scrollbars="vertical"
             app:layoutManager=".view.MyLinearLayoutManager" />
 
-        <cn.com.bamboo.esay_file_manage.view.OptionMenulayout
+        <cn.com.bamboo.esay_file_manage.view.OptionMenuLayout
             android:id="@+id/option_menu"
             android:layout_width="match_parent"
             android:layout_height="40dp"

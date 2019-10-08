@@ -8,15 +8,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import cn.com.bamboo.esay_file_manage.R
 
-class OptionMenulayout : LinearLayout {
+class OptionMenuLayout : LinearLayout {
     interface OptionMenuCallback {
         fun create()
         fun paste()
         fun more()
         fun checkOk()
-        fun checkCancel()
         fun checkCopy()
         fun checkMove()
+        fun checkRemove()
         fun checkMore()
     }
 
@@ -36,9 +36,9 @@ class OptionMenulayout : LinearLayout {
     )
     private val checkMenuName: Array<Pair<String, Int>> = arrayOf(
         Pair("确认", R.mipmap.ic_ok),
-        Pair("取消", R.mipmap.ic_cancel),
         Pair("复制", R.mipmap.ic_copy),
         Pair("移动", R.mipmap.ic_move),
+        Pair("删除", R.mipmap.ic_cancel),
         Pair("更多", R.mipmap.ic_more)
     )
 
@@ -97,9 +97,9 @@ class OptionMenulayout : LinearLayout {
             menuName[1].first -> callback!!.paste()
             menuName[2].first -> callback!!.more()
             checkMenuName[0].first -> callback!!.checkOk()
-            checkMenuName[1].first -> callback!!.checkCancel()
-            checkMenuName[2].first -> callback!!.checkCopy()
-            checkMenuName[3].first -> callback!!.checkMove()
+            checkMenuName[1].first -> callback!!.checkCopy()
+            checkMenuName[2].first -> callback!!.checkMove()
+            checkMenuName[3].first -> callback!!.checkRemove()
             checkMenuName[4].first -> callback!!.checkMore()
         }
     }

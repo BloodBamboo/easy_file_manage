@@ -1,24 +1,37 @@
 package cn.com.bamboo.esay_file_manage
 
 import android.Manifest
+import android.app.Activity
+import android.content.ClipData
+import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
 import android.os.Parcelable
+import android.util.Log
 import android.view.View
+import android.widget.EditText
+import androidx.core.content.FileProvider
 import cn.com.bamboo.esay_common.help.Permission4MultipleHelp
 import cn.com.bamboo.esay_file_manage.extensions.formatDate
 import cn.com.bamboo.esay_file_manage.extensions.formatSize
 import cn.com.bamboo.esay_file_manage.model.ItemFile
 import cn.com.bamboo.esay_file_manage.util.FileUtil
-import cn.com.bamboo.esay_file_manage.view.OptionMenulayout
+import cn.com.bamboo.esay_file_manage.view.OptionMenuLayout
 import cn.com.edu.hnzikao.kotlin.base.BaseKotlinActivity
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
+import java.io.File
 import java.util.*
 
-class MainActivity : BaseKotlinActivity(), OptionMenulayout.OptionMenuCallback {
+class MainActivity : BaseKotlinActivity(), OptionMenuLayout.OptionMenuCallback {
+
+    companion object {
+        val GET_PATHS = "getPath"
+    }
+
     private data class ParentPathInfo(var path: String, var parcelable: Parcelable)
 
     private var currentPath: String =
@@ -27,10 +40,34 @@ class MainActivity : BaseKotlinActivity(), OptionMenulayout.OptionMenuCallback {
     private var showCheckbox = false
     private var checkAll = false
 
+    private var getFilePaths = false
+
     private lateinit var adapter: FileAdapter
 
     override fun create() {
-        toast("新建文件夹")
+        this.alert {
+            this.title = "新建文件夹"
+            val nameEditText = EditText(this@MainActivity)
+            nameEditText.hint = "文件夹名称"
+//            nameEditText.textSize = this@MainActivity.dip(13).toFloat()
+            nameEditText.setTextColor(this@MainActivity.resources.getColor(R.color.text_primary))
+            this.customView = nameEditText
+            this.positiveButton("确定") {
+                val name = nameEditText.text.toString()
+                if (name.isNotEmpty() &&
+                    !name.contains(".") &&
+                    FileUtil.createFileOrFolder(currentPath, name)
+                ) {
+                    openPath(currentPath)
+                } else {
+                    toast("创建失败，文件名不能为空或其他特殊字符")
+                }
+
+            }
+            this.negativeButton("取消") {
+
+            }
+        }.show()
     }
 
     override fun paste() {
@@ -42,11 +79,35 @@ class MainActivity : BaseKotlinActivity(), OptionMenulayout.OptionMenuCallback {
     }
 
     override fun checkOk() {
-        toast("确认")
-    }
-
-    override fun checkCancel() {
-        showCheckbox()
+        val list = adapter.checkData()
+        if (list.size > 1000) {
+            this.alert {
+                message = "最多不能超过1000个文件和文件夹"
+            }
+        } else {
+            val paths = list.map {
+                FileProvider.getUriForFile(
+                    this,
+                    "${BuildConfig.APPLICATION_ID}.provider",
+                    File(it)
+                )
+            } as ArrayList
+            val clipData =
+                ClipData("FilePath", arrayOf("text/plain"), ClipData.Item(paths.removeAt(0)))
+            paths.forEach {
+                clipData.addItem(ClipData.Item(it))
+            }
+            Intent().apply {
+                this.clipData = clipData
+                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                setResult(Activity.RESULT_OK, this)
+            }
+            if (getFilePaths) {
+                finish()
+            } else {
+                showCheckbox()
+            }
+        }
     }
 
     override fun checkCopy() {
@@ -55,6 +116,15 @@ class MainActivity : BaseKotlinActivity(), OptionMenulayout.OptionMenuCallback {
 
     override fun checkMove() {
         toast("移动")
+    }
+
+    override fun checkRemove() {
+        if (FileUtil.remove(adapter.checkData())) {
+            openPath(currentPath)
+            toast("删除成功")
+        } else {
+            toast("删除失败")
+        }
     }
 
     override fun checkMore() {
@@ -72,6 +142,7 @@ class MainActivity : BaseKotlinActivity(), OptionMenulayout.OptionMenuCallback {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
         ), success = {
+            getFilePaths = intent.getBooleanExtra(GET_PATHS, false)
             adapter = FileAdapter(FileUtil.openDir(currentPath))
             recycler_view.adapter = adapter
         }, fail = { toast("请开启读写权限") })
@@ -171,16 +242,14 @@ class MainActivity : BaseKotlinActivity(), OptionMenulayout.OptionMenuCallback {
             return
         }
 
-        if (data!!.children > 0) {
-            //先保存之前路径
-            pathHistory.push(
-                ParentPathInfo(
-                    currentPath,
-                    recycler_view.layoutManager!!.onSaveInstanceState()!!
-                )
+        //先保存之前路径
+        pathHistory.push(
+            ParentPathInfo(
+                currentPath,
+                recycler_view.layoutManager!!.onSaveInstanceState()!!
             )
-            openPath(data!!.path)
-        }
+        )
+        openPath(data!!.path)
     }
 
 
@@ -222,6 +291,16 @@ class MainActivity : BaseKotlinActivity(), OptionMenulayout.OptionMenuCallback {
                     helper.setVisible(R.id.checkbox, false)
                 }
             }
+        }
+
+        fun checkData(): List<String> {
+            val list = ArrayList<String>()
+            for (itemFile in data) {
+                if (itemFile.isChecked) {
+                    list.add(itemFile.path)
+                }
+            }
+            return list
         }
     }
 }
