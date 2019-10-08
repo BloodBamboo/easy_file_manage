@@ -1,0 +1,3 @@
+include ':app', ':easy_common'
+project(':easy_common').projectDir = new File('easy_common/app')
+rootProject.name='esay_file_manage'
