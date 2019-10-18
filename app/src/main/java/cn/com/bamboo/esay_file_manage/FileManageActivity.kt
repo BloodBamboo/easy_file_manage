@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
 import android.os.Parcelable
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.core.content.FileProvider
@@ -26,7 +25,7 @@ import org.jetbrains.anko.toast
 import java.io.File
 import java.util.*
 
-class MainActivity : BaseKotlinActivity(), OptionMenuLayout.OptionMenuCallback {
+class FileManageActivity : BaseKotlinActivity(), OptionMenuLayout.OptionMenuCallback {
 
     companion object {
         val GET_PATHS = "getPath"
@@ -47,10 +46,10 @@ class MainActivity : BaseKotlinActivity(), OptionMenuLayout.OptionMenuCallback {
     override fun create() {
         this.alert {
             this.title = "新建文件夹"
-            val nameEditText = EditText(this@MainActivity)
+            val nameEditText = EditText(this@FileManageActivity)
             nameEditText.hint = "文件夹名称"
-//            nameEditText.textSize = this@MainActivity.dip(13).toFloat()
-            nameEditText.setTextColor(this@MainActivity.resources.getColor(R.color.text_primary))
+//            nameEditText.textSize = this@FileManageActivity.dip(13).toFloat()
+            nameEditText.setTextColor(this@FileManageActivity.resources.getColor(R.color.text_primary))
             this.customView = nameEditText
             this.positiveButton("确定") {
                 val name = nameEditText.text.toString()

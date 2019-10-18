@@ -8,6 +8,8 @@ val SORT_BY_SIZE = 2
 val SORT_BY_DATE_MODIFIED = 3
 val SORT_DESCENDING = -1
 
+
+val FILE_REQUEST = 1001
 ///**
 // * 文件夹显示类型
 // */

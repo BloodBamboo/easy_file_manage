@@ -5,7 +5,9 @@
     <dimen name="medium_margin">5dp</dimen>
     <dimen name="normal_margin">15dp</dimen>
     <dimen name="small_margin">4dp</dimen>
-    <dimen name="thread_text_size">12dp</dimen>
 
+    <dimen name="head_text_size">18dp</dimen>
+    <dimen name="first_text_size">16dp</dimen>
+    <dimen name="thread_text_size">12dp</dimen>
     <dimen name="option_menu_size">12dp</dimen>
 </resources>
