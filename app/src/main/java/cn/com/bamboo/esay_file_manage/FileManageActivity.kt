@@ -10,6 +10,7 @@ import android.os.Parcelable
 import android.view.View
 import android.widget.EditText
 import androidx.core.content.FileProvider
+import androidx.recyclerview.widget.RecyclerView
 import cn.com.bamboo.esay_common.help.Permission4MultipleHelp
 import cn.com.bamboo.esay_file_manage.extensions.formatDate
 import cn.com.bamboo.esay_file_manage.extensions.formatSize
@@ -19,7 +20,7 @@ import cn.com.bamboo.esay_file_manage.view.OptionMenuLayout
 import cn.com.edu.hnzikao.kotlin.base.BaseKotlinActivity
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_file_manage.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
 import java.io.File
@@ -132,7 +133,7 @@ class FileManageActivity : BaseKotlinActivity(), OptionMenuLayout.OptionMenuCall
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_file_manage)
         setTitleAndBackspace("文件管理") {
             backEvent()
         }
