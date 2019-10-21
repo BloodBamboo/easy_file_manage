@@ -1,4 +1,4 @@
-package cn.com.bamboo.esay_file_manage
+package cn.com.bamboo.easy_file_manage
 
 import android.Manifest
 import android.app.Activity
@@ -10,13 +10,12 @@ import android.os.Parcelable
 import android.view.View
 import android.widget.EditText
 import androidx.core.content.FileProvider
-import androidx.recyclerview.widget.RecyclerView
 import cn.com.bamboo.esay_common.help.Permission4MultipleHelp
-import cn.com.bamboo.esay_file_manage.extensions.formatDate
-import cn.com.bamboo.esay_file_manage.extensions.formatSize
-import cn.com.bamboo.esay_file_manage.model.ItemFile
-import cn.com.bamboo.esay_file_manage.util.FileUtil
-import cn.com.bamboo.esay_file_manage.view.OptionMenuLayout
+import cn.com.bamboo.easy_file_manage.extensions.formatDate
+import cn.com.bamboo.easy_file_manage.extensions.formatSize
+import cn.com.bamboo.easy_file_manage.model.ItemFile
+import cn.com.bamboo.easy_file_manage.util.FileUtil
+import cn.com.bamboo.easy_file_manage.view.OptionMenuLayout
 import cn.com.edu.hnzikao.kotlin.base.BaseKotlinActivity
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder

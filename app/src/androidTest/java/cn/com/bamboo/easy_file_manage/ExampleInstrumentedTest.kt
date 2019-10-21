@@ -1,4 +1,4 @@
-package cn.com.bamboo.esay_file_manage
+package cn.com.bamboo.easy_file_manage
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4

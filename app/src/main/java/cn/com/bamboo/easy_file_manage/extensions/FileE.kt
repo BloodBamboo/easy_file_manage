@@ -1,4 +1,4 @@
-package cn.com.bamboo.esay_file_manage.extensions
+package cn.com.bamboo.easy_file_manage.extensions
 
 import java.io.File
 

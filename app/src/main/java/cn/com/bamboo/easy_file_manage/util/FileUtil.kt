@@ -1,7 +1,7 @@
-package cn.com.bamboo.esay_file_manage.util
+package cn.com.bamboo.easy_file_manage.util
 
-import cn.com.bamboo.esay_file_manage.extensions.getDirectChildrenCount
-import cn.com.bamboo.esay_file_manage.model.ItemFile
+import cn.com.bamboo.easy_file_manage.extensions.getDirectChildrenCount
+import cn.com.bamboo.easy_file_manage.model.ItemFile
 import java.io.File
 
 object FileUtil {

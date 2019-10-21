@@ -32,9 +32,9 @@
             android:layout_height="match_parent"
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
-            app:layoutManager=".view.MyLinearLayoutManager" />
+            app:layoutManager="cn.com.bamboo.easy_file_manage.view.MyLinearLayoutManager" />
 
-        <cn.com.bamboo.esay_file_manage.view.OptionMenuLayout
+        <cn.com.bamboo.easy_file_manage.view.OptionMenuLayout
             android:id="@+id/option_menu"
             android:layout_width="match_parent"
             android:layout_height="40dp"

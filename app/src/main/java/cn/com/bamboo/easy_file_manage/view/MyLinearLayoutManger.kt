@@ -1,4 +1,4 @@
-package cn.com.bamboo.esay_file_manage.view
+package cn.com.bamboo.easy_file_manage.view
 
 import android.content.Context
 import android.util.AttributeSet

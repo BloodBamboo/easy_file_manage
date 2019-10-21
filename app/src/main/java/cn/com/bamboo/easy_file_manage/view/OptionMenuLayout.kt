@@ -1,4 +1,4 @@
-package cn.com.bamboo.esay_file_manage.view
+package cn.com.bamboo.easy_file_manage.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import cn.com.bamboo.esay_file_manage.R
+import cn.com.bamboo.easy_file_manage.R
 
 class OptionMenuLayout : LinearLayout {
     interface OptionMenuCallback {

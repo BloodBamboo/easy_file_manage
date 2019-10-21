@@ -1,10 +1,10 @@
-package cn.com.bamboo.esay_file_manage.model
+package cn.com.bamboo.easy_file_manage.model
 
-import cn.com.bamboo.esay_file_manage.extensions.getParentPath
-import cn.com.bamboo.esay_file_manage.util.SORT_BY_DATE_MODIFIED
-import cn.com.bamboo.esay_file_manage.util.SORT_BY_NAME
-import cn.com.bamboo.esay_file_manage.util.SORT_BY_SIZE
-import cn.com.bamboo.esay_file_manage.util.SORT_DESCENDING
+import cn.com.bamboo.easy_file_manage.extensions.getParentPath
+import cn.com.bamboo.easy_file_manage.util.SORT_BY_DATE_MODIFIED
+import cn.com.bamboo.easy_file_manage.util.SORT_BY_NAME
+import cn.com.bamboo.easy_file_manage.util.SORT_BY_SIZE
+import cn.com.bamboo.easy_file_manage.util.SORT_DESCENDING
 
 open class FileDirItem(val path: String, val name: String = "", var isDirectory: Boolean = false, var children: Int = 0, var size: Long = 0L, var modified: Long = 0L) :
     Comparable<FileDirItem> {

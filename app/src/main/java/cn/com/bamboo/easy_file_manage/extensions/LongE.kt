@@ -1,6 +1,5 @@
-package cn.com.bamboo.esay_file_manage.extensions
+package cn.com.bamboo.easy_file_manage.extensions
 
-import android.content.Context
 import android.text.format.DateFormat
 import java.text.DecimalFormat
 import java.util.*
