@@ -10,7 +10,7 @@ import android.os.Parcelable
 import android.view.View
 import android.widget.EditText
 import androidx.core.content.FileProvider
-import cn.com.bamboo.esay_common.help.Permission4MultipleHelp
+import cn.com.bamboo.easy_common.help.Permission4MultipleHelp
 import cn.com.bamboo.easy_file_manage.extensions.formatDate
 import cn.com.bamboo.easy_file_manage.extensions.formatSize
 import cn.com.bamboo.easy_file_manage.model.ItemFile
@@ -19,6 +19,7 @@ import cn.com.bamboo.easy_file_manage.view.OptionMenuLayout
 import cn.com.edu.hnzikao.kotlin.base.BaseKotlinActivity
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_file_manage.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
@@ -29,6 +30,8 @@ class FileManageActivity : BaseKotlinActivity(), OptionMenuLayout.OptionMenuCall
 
     companion object {
         val GET_PATHS = "getPath"
+        val GET_PATH_TYPE = "get_path_type"
+        val RESULT_JSON = "result_json"
     }
 
     private data class ParentPathInfo(var path: String, var parcelable: Parcelable)
@@ -38,7 +41,7 @@ class FileManageActivity : BaseKotlinActivity(), OptionMenuLayout.OptionMenuCall
     private var pathHistory: Stack<ParentPathInfo> = Stack()
     private var showCheckbox = false
     private var checkAll = false
-
+    private var pathType = 0 //0 file_provider 1 json
     private var getFilePaths = false
 
     private lateinit var adapter: FileAdapter
@@ -84,28 +87,47 @@ class FileManageActivity : BaseKotlinActivity(), OptionMenuLayout.OptionMenuCall
                 message = "最多不能超过1000个文件和文件夹"
             }
         } else {
-            val paths = list.map {
-                FileProvider.getUriForFile(
-                    this,
-                    "${BuildConfig.APPLICATION_ID}.provider",
-                    File(it)
-                )
-            } as ArrayList
-            val clipData =
-                ClipData("FilePath", arrayOf("text/plain"), ClipData.Item(paths.removeAt(0)))
-            paths.forEach {
-                clipData.addItem(ClipData.Item(it))
+            when (pathType) {
+                0 -> {
+                    fileProvider(list)
+                }
+                1 -> {
+                    jsonProvider(list)
+                }
             }
-            Intent().apply {
-                this.clipData = clipData
-                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                setResult(Activity.RESULT_OK, this)
-            }
-            if (getFilePaths) {
-                finish()
-            } else {
-                showCheckbox()
-            }
+        }
+
+        if (getFilePaths) {
+            finish()
+        } else {
+            showCheckbox()
+        }
+    }
+
+    private fun jsonProvider(list: List<String>) {
+        Intent().apply {
+            putExtra(RESULT_JSON, Gson().toJson(list))
+            setResult(Activity.RESULT_OK, this)
+        }
+    }
+
+    private fun fileProvider(list: List<String>) {
+        val paths = list.map {
+            FileProvider.getUriForFile(
+                this,
+                "${BuildConfig.APPLICATION_ID}.provider",
+                File(it)
+            )
+        } as ArrayList
+        val clipData =
+            ClipData("FilePath", arrayOf("text/plain"), ClipData.Item(paths.removeAt(0)))
+        paths.forEach {
+            clipData.addItem(ClipData.Item(it))
+        }
+        Intent().apply {
+            this.clipData = clipData
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            setResult(Activity.RESULT_OK, this)
         }
     }
 
@@ -141,6 +163,7 @@ class FileManageActivity : BaseKotlinActivity(), OptionMenuLayout.OptionMenuCall
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
         ), success = {
+            pathType = intent.getIntExtra(GET_PATH_TYPE, 0)
             getFilePaths = intent.getBooleanExtra(GET_PATHS, false)
             adapter = FileAdapter(FileUtil.openDir(currentPath))
             recycler_view.adapter = adapter
@@ -197,7 +220,7 @@ class FileManageActivity : BaseKotlinActivity(), OptionMenuLayout.OptionMenuCall
                 checkAll = !checkAll
                 if (checkAll) {
                     for (item in adapter.data) {
-                        item.isChecked = true
+                        item.isChecked = item.path.isNotEmpty()
                     }
                 } else {
                     for (item in adapter.data) {

@@ -9,7 +9,7 @@ import cn.com.bamboo.easy_file_manage.util.SORT_DESCENDING
 open class FileDirItem(val path: String, val name: String = "", var isDirectory: Boolean = false, var children: Int = 0, var size: Long = 0L, var modified: Long = 0L) :
     Comparable<FileDirItem> {
     companion object {
-        var sorting = 0
+        var sorting = 1
     }
 
     override fun toString() = "FileDirItem(path=$path, name=$name, isDirectory=$isDirectory, children=$children, size=$size, modified=$modified)"
@@ -21,14 +21,14 @@ open class FileDirItem(val path: String, val name: String = "", var isDirectory:
             1
         } else {
             var result: Int
-            when {
-                sorting and SORT_BY_NAME != 0 -> result = name.toLowerCase().compareTo(other.name.toLowerCase())
-                sorting and SORT_BY_SIZE != 0 -> result = when {
+            when (sorting){
+                SORT_BY_NAME -> result = name.toLowerCase().compareTo(other.name.toLowerCase())
+                SORT_BY_SIZE -> result = when {
                     size == other.size -> 0
                     size > other.size -> 1
                     else -> -1
                 }
-                sorting and SORT_BY_DATE_MODIFIED != 0 -> {
+                SORT_BY_DATE_MODIFIED -> {
                     result = when {
                         modified == other.modified -> 0
                         modified > other.modified -> 1
@@ -40,7 +40,7 @@ open class FileDirItem(val path: String, val name: String = "", var isDirectory:
                 }
             }
 
-            if (sorting and SORT_DESCENDING != 0) {
+            if (sorting == SORT_DESCENDING) {
                 result *= -1
             }
             result
