@@ -20,7 +20,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
-        <activity android:name="cn.com.bamboo.easy_file_manage.FileManageActivity">
+        <activity android:name="cn.com.bamboo.easy_file_manage.FileManageActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            >
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 
