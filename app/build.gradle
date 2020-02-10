@@ -1,13 +1,22 @@
-//apply plugin: 'com.android.application'
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+def isModel = true
 
+if (isModel) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+
+
+apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
     defaultConfig {
-//        applicationId "cn.com.bamboo.easy_file_manage"
+        if (isModel) {
+            applicationId "cn.com.bamboo.easy_file_manage"
+        }
+
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
@@ -28,6 +37,17 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main{
+            if (isModel) {
+                if (isModel) {
+//                    java.srcDirs = ['src/main/java', 'src/main/model/java']
+                    manifest.srcFile 'src/main/model/AndroidManifest.xml'
+                }
+            }
+        }
     }
 }
 
